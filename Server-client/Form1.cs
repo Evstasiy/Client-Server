@@ -54,6 +54,7 @@ namespace Server_client
             Server server = new Server();
             Client cl = new Client();
             ChatBox.Text += Environment.NewLine + "Server - " + server.Check() + " ||Client - " + cl.Check();
+            //Hello! =)
         }
 
         private void button5_Click(object sender, EventArgs e)
