@@ -1,0 +1,10 @@
+C:\Users\User\source\repos\Server-client\Server-client\bin\Release\Server-client.exe.config
+C:\Users\User\source\repos\Server-client\Server-client\bin\Release\Server-client.exe
+C:\Users\User\source\repos\Server-client\Server-client\bin\Release\Server-client.pdb
+C:\Users\User\source\repos\Server-client\Server-client\obj\Release\Server_client.Form1.resources
+C:\Users\User\source\repos\Server-client\Server-client\obj\Release\Server_client.Properties.Resources.resources
+C:\Users\User\source\repos\Server-client\Server-client\obj\Release\Server-client.csproj.GenerateResource.Cache
+C:\Users\User\source\repos\Server-client\Server-client\obj\Release\Server-client.csproj.CoreCompileInputs.cache
+C:\Users\User\source\repos\Server-client\Server-client\obj\Release\Server-client.exe
+C:\Users\User\source\repos\Server-client\Server-client\obj\Release\Server-client.pdb
+C:\Users\User\source\repos\Server-client\Server-client\obj\Release\Server-client.csprojResolveAssemblyReference.cache
