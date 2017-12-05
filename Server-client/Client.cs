@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading;
 using System.IO;
 using System.Windows.Forms;
+using System.Threading.Tasks;
 
 namespace Server_client
 {
@@ -33,8 +34,9 @@ namespace Server_client
                 name = nameV;
                 socket.Connect(IP, port);
                 SendPacket(PacketData.ID);
-                id = Convert.ToString(RecevePacket());
+                id = Convert.ToString(ReceivePacket());
                 textBox = "Youre ID:"+id;
+                Task.Run(() => { while (true) ReceivePacket(); });
             }
             catch (Exception)
             {
@@ -69,7 +71,7 @@ namespace Server_client
             }
         }
 
-        static int RecevePacket()
+        static int ReceivePacket()
         {
             
             ms.Position = 0;

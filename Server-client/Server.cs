@@ -77,7 +77,7 @@ namespace Server_client
                                 string name = read.ReadString();
                                 string message = read.ReadString();
                                 code = "1 " + name + ":" + message;
-                                ms.Position = 0;
+                                //ms.Position = 0;
                                
                                 write.Write(code);
                                 c.Send(ms.GetBuffer());

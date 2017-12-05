@@ -143,17 +143,17 @@
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(12, 242);
+            this.button4.Location = new System.Drawing.Point(12, 249);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(117, 34);
             this.button4.TabIndex = 6;
-            this.button4.Text = "button4";
+            this.button4.Text = "Show data";
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(427, 493);
+            this.button5.Location = new System.Drawing.Point(12, 304);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(112, 34);
             this.button5.TabIndex = 7;
@@ -182,7 +182,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(636, 295);
+            this.ClientSize = new System.Drawing.Size(627, 293);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.button5);
             this.Controls.Add(this.button4);
