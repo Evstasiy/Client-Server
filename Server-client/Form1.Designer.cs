@@ -106,6 +106,7 @@
             this.Namebox.Name = "Namebox";
             this.Namebox.Size = new System.Drawing.Size(150, 24);
             this.Namebox.TabIndex = 1;
+            this.Namebox.Text = "Nick";
             // 
             // IPbox
             // 
@@ -147,8 +148,9 @@
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(117, 34);
             this.button4.TabIndex = 6;
-            this.button4.Text = "Show data";
+            this.button4.Text = "Show info";
             this.button4.UseVisualStyleBackColor = true;
+            this.button4.Visible = false;
             this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
             // button5
@@ -182,7 +184,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(627, 293);
+            this.ClientSize = new System.Drawing.Size(627, 291);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.button5);
             this.Controls.Add(this.button4);

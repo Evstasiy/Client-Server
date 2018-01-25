@@ -12,45 +12,49 @@ namespace Server_client
 {
     public class Client
     {
+        public TextBox ChatCl{ get; set; }
+
         static Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         static MemoryStream ms = new MemoryStream(new byte[1024], 0, 256, true, true);
         static BinaryWriter write = new BinaryWriter(ms);
         static BinaryReader read = new BinaryReader(ms);
 
-        enum PacketData { ID, Text };
+        bool connect;
+
+        enum PacketData {
+            ID,
+            Message
+        }
 
         static string textBox;//test
         public string Check() { return textBox; }//Test
 
-        static Form1 form = new Form1();
+        
         static string name;
-        static string id;
+        int id;
 
         public void Connect(string IP, int port, string nameV)
         {
-
             try
             {
+                connect = true;
                 name = nameV;
                 socket.Connect(IP, port);
                 SendPacket(PacketData.ID);
-                id = Convert.ToString(ReceivePacket());
-                textBox = "Youre ID:"+id;
-                Task.Run(() => { while (true) ReceivePacket(); });
+                ReceivePacket();
+                Task.Run(() => { while (connect) ReceivePacket(); });
             }
             catch (Exception)
             {
-                textBox = "Connection Failed!";
+                ChatCl.Text += Environment.NewLine + "Connection Failed!";
             }
-
         }
 
         public void Send(string text)
         {
             textBox = text;
-            form.ChatBox.Text = "ksk";
-            SendPacket(PacketData.Text);
             //textBox = Environment.NewLine + name + ":" + textBox;
+            SendPacket(PacketData.Message);
         }
 
         static void SendPacket(PacketData data)
@@ -60,35 +64,60 @@ namespace Server_client
             {
                 case PacketData.ID:
                     write.Write(0);
+                    write.Write(name);
+                    //MessageBox.Show("name - " + name);
                     socket.Send(ms.GetBuffer());
                     break;
-                case PacketData.Text:
+                case PacketData.Message:
                     write.Write(1);
-                    write.Write(name);
                     write.Write(textBox);
                     socket.Send(ms.GetBuffer());    
                     break;
             }
         }
 
-        static int ReceivePacket()
+        private void ReceivePacket()
         {
-            
             ms.Position = 0;
+            try { socket.Receive(ms.GetBuffer()); } catch { }
 
-            socket.Receive(ms.GetBuffer());
-
-            int s = read.ReadInt32();
-
-            switch(s)
+            int code = read.ReadInt32();
+            //ChatCl.Text += Environment.NewLine + "Code : " + code;
+            switch (code)
             {
-                case 0: return read.ReadInt32();
+                case 0:
+                    if (id == 0)
+                    {
+                        id = read.ReadInt32();
+                        ChatCl.Text += Environment.NewLine + "Youre ID :" + id;
+                    }
+                    break;
                 case 1:
-                    textBox = read.ReadString() + read.ReadString();
+                    string name = read.ReadString();
+                    string message = read.ReadString();
+                    ChatCl.Text += Environment.NewLine + name +" : " + message;
+                    //MessageBox.Show("name - " + name);
+                    break;
+                case 2:
+                    ChatCl.Text += Environment.NewLine + "New connect : " + read.ReadString();
+                    break;
+                case 3:
+                    ChatCl.Text += Environment.NewLine + "Disconnect : " + read.ReadString();
+                    break;
+                case 4:
+                    ChatCl.Text += Environment.NewLine + "Error " + read.ReadString();
                     break;
 
             }
-            return -1;
+        }
+
+        public void Disconnect()
+        {
+            connect = false;
+            /*socket.Shutdown(SocketShutdown.Both);
+            socket.Disconnect(true);*/
+            socket.Close();
+            //MessageBox.Show("Connect: " + socket.Connected);
         }
 
     }

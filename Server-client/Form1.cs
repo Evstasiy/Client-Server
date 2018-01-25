@@ -16,36 +16,67 @@ namespace Server_client
     public partial class Form1 : Form
     {
         string text;
+        bool connect = false;
         public Form1()
         {
             InitializeComponent();
+            button3.Enabled = false;
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            IPbox.Text = "127.0.0.1";
-            Namebox.Text = "Den";
-            string ipClient = IPbox.Text;
-            const int portClient = 900;
-            string nameClient = Namebox.Text;
-
             Client cl = new Client();
-            ChatBox.Text += cl.Check();
-            cl.Connect(ipClient,portClient,nameClient);
+            if (!connect)
+            {
+                IPbox.Text = "127.0.0.1";
+                Namebox.Text = Namebox.Text;
+                string ipClient = IPbox.Text;
+                const int portClient = 900;
+                string nameClient = Namebox.Text;
+                
+                cl.ChatCl = ChatBox;
+                ChatBox.Text += Environment.NewLine + "Connecting...";
+                cl.Connect(ipClient, portClient, nameClient);
+
+                button1.Enabled = false;
+                IPbox.Enabled = false;
+                Namebox.Enabled = false;
+                button2.Text = "Disconnect";
+                connect = true;
+                button3.Enabled = true;
+            }
+            else
+            {
+                button1.Enabled = true;
+                IPbox.Enabled = true;
+                Namebox.Enabled = true;
+
+                cl.Disconnect();
+                button2.Text = "Client";
+                connect = false;
+            }
         }
 
         private void button1_Click(object sender, EventArgs e)
         {       
             IPbox.Text = "127.0.0.1";
             Server server = new Server();
+            server.Chat = ChatBox;
             server.StartServer();
+            button1.Enabled = false;
+            button2.Enabled = false;
+            IPbox.Enabled = false;
+            Namebox.Enabled = false;
+            button4.Visible = true;
+            SendText.Enabled = false;
+            button3.Enabled = false;
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
             Client cl = new Client();
             cl.Send(SendText.Text);
-            ChatBox.Text += cl.Check();
+            SendText.Text = "";
             //cl.SendMessage(Sendtext.Text);
         }
 
