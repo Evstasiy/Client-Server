@@ -8,3 +8,5 @@ C:\Users\User\source\repos\Server-client\Server-client\obj\Debug\Server-client.c
 C:\Users\User\source\repos\Server-client\Server-client\obj\Debug\Server-client.csproj.CoreCompileInputs.cache
 C:\Users\User\source\repos\Server-client\Server-client\obj\Debug\Server-client.exe
 C:\Users\User\source\repos\Server-client\Server-client\obj\Debug\Server-client.pdb
+C:\Users\User\source\repos\Server-client\Server-client\bin\Debug\dataBase.mdf
+C:\Users\User\source\repos\Server-client\Server-client\bin\Debug\dataBase_log.ldf

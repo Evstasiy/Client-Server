@@ -23,7 +23,9 @@ namespace Server_client
 
         enum PacketData {
             ID,
-            Message
+            Pass,
+            Message,
+            Command
         }
 
         static string textBox;//test
@@ -32,6 +34,7 @@ namespace Server_client
         
         static string name;
         int id;
+        bool pass = true;
 
         public void Connect(string IP, int port, string nameV)
         {
@@ -42,6 +45,7 @@ namespace Server_client
                 socket.Connect(IP, port);
                 SendPacket(PacketData.ID);
                 ReceivePacket();
+                
                 Task.Run(() => { while (connect) ReceivePacket(); });
             }
             catch (Exception)
@@ -54,10 +58,14 @@ namespace Server_client
         {
             textBox = text;
             //textBox = Environment.NewLine + name + ":" + textBox;
-            SendPacket(PacketData.Message);
+            if (textBox.Substring(0, 1) == "/") SendPacket(PacketData.Command);
+            else
+                if (!pass) SendPacket(PacketData.Message);
+            else SendPacket(PacketData.Pass);
+            
         }
 
-        static void SendPacket(PacketData data)
+        void SendPacket(PacketData data)
         {
             ms.Position = 0;
             switch (data)
@@ -68,19 +76,35 @@ namespace Server_client
                     //MessageBox.Show("name - " + name);
                     socket.Send(ms.GetBuffer());
                     break;
-                case PacketData.Message:
+                case PacketData.Pass:
                     write.Write(1);
                     write.Write(textBox);
+                    socket.Send(ms.GetBuffer());
+                    //pass = false;
+                    break;
+                case PacketData.Message:
+                    write.Write(2);
+                    write.Write(textBox);
                     socket.Send(ms.GetBuffer());    
+                    break;
+                case PacketData.Command:
+                    write.Write(3);
+                    switch (textBox.Split()[0])
+                    {
+                        case "/userPass_Replace":
+                            write.Write(textBox.Split()[0]);
+                            write.Write(textBox.Split()[1]);
+                            socket.Send(ms.GetBuffer());
+                            break;
+                    }
                     break;
             }
         }
 
         private void ReceivePacket()
         {
-            ms.Position = 0;
             try { socket.Receive(ms.GetBuffer()); } catch { }
-
+            ms.Position = 0;
             int code = read.ReadInt32();
             //ChatCl.Text += Environment.NewLine + "Code : " + code;
             switch (code)
@@ -93,19 +117,27 @@ namespace Server_client
                     }
                     break;
                 case 1:
+                    pass = read.ReadBoolean();
+                    ChatCl.Text += Environment.NewLine + read.ReadString();
+                    break;
+                case 2:
                     string name = read.ReadString();
                     string message = read.ReadString();
                     ChatCl.Text += Environment.NewLine + name +" : " + message;
                     //MessageBox.Show("name - " + name);
                     break;
-                case 2:
+                case 3:
                     ChatCl.Text += Environment.NewLine + "New connect : " + read.ReadString();
                     break;
-                case 3:
+                case 4:
                     ChatCl.Text += Environment.NewLine + "Disconnect : " + read.ReadString();
                     break;
-                case 4:
-                    ChatCl.Text += Environment.NewLine + "Error " + read.ReadString();
+                case 5:
+                    ChatCl.Text += Environment.NewLine + "Error " + read.ReadString() + Environment.NewLine + "Try connect later.";
+                    Disconnect();
+                    break;
+                case 6:
+                    ChatCl.Text += Environment.NewLine + read.ReadString();
                     break;
 
             }

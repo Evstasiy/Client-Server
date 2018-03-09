@@ -22,10 +22,11 @@ namespace Server_client
             InitializeComponent();
             button3.Enabled = false;
         }
-
+        Server server = new Server();
+        Client cl = new Client();
         private void button2_Click(object sender, EventArgs e)
         {
-            Client cl = new Client();
+            
             if (!connect)
             {
                 IPbox.Text = "127.0.0.1";
@@ -56,13 +57,14 @@ namespace Server_client
                 connect = false;
             }
         }
-
+        
         private void button1_Click(object sender, EventArgs e)
         {       
             IPbox.Text = "127.0.0.1";
-            Server server = new Server();
             server.Chat = ChatBox;
             server.StartServer();
+            server.sqlList = sqlList;
+            server.sqlTextFind = sqlFind;
             button1.Enabled = false;
             button2.Enabled = false;
             IPbox.Enabled = false;
@@ -74,7 +76,6 @@ namespace Server_client
 
         private void button3_Click(object sender, EventArgs e)
         {
-            Client cl = new Client();
             cl.Send(SendText.Text);
             SendText.Text = "";
             //cl.SendMessage(Sendtext.Text);
@@ -82,22 +83,27 @@ namespace Server_client
 
         private void button4_Click(object sender, EventArgs e)
         {
-            Server server = new Server();
-            Client cl = new Client();
-            ChatBox.Text += Environment.NewLine + "Server - " + server.Check() + " ||Client - " + cl.Check();
+            ChatBox.Text += Environment.NewLine + "Server - " + server.Check() + " || Client - " + cl.Check();
             //Hello! =)
         }
 
         private void button5_Click(object sender, EventArgs e)
         {
-            timer1.Enabled = true;
+            
         }
 
-        private void timer1_Tick(object sender, EventArgs e)
+        private void button6_Click(object sender, EventArgs e)
         {
-            Client cl = new Client();
-            Server server = new Server();
-            textBox1.Text += Environment.NewLine + "Server - " + server.Check() + "  ||  Client - " + cl.Check();
+            //server.sqlList = sqlList;
+            //server.sqlUpdate();
+            //server.CloseSQL();
+            server.sqlFindUser();
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            server.sqlUpdate();
+            
         }
     }
 }
